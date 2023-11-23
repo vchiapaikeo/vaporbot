@@ -24,9 +24,14 @@ app.post("/api/v1/question", async (req, res) => {
     headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "69420" },
   });
   console.log(response);
-  const data = await response.json()
-  console.log(data);
-  res.send(data);
+  try {
+    const data = await response.json()
+    console.log(data);
+    res.send(data);
+  } catch (FetchError) {
+    console.warn("API Down. Sending generic response");
+    res.send({data: "Errr, currently borked. Please tell Victor to fix me. Better yet, just ask Jason."});
+  }
 });
 
 app.get("/api/v1/readiness_check", async (req, res) => {
